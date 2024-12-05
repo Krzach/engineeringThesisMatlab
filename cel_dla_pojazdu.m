@@ -1,4 +1,4 @@
-function y_for_car = cel_dla_pojazdu(X)
+function to_send = cel_dla_pojazdu(X)
 
     alpha = X(1);
     x0=X(2);
@@ -9,13 +9,17 @@ function y_for_car = cel_dla_pojazdu(X)
 
     x1 = x0+dx;
     y1 = y0+dy;
+    to_send = zeros(2,2);
+    to_send(2,1) = x1;
+    to_send(2,2) = y1;
     
     syms x y
 
     if alpha == 0
         
         eq1 = x == x1;
-        eq2 = 0.5*sin(x*pi*0.5) - y == 0;
+        %eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
+        eq2 = y == 0.2;
 
         solution = solve([eq1, eq2], [x, y]);
     else
@@ -24,7 +28,8 @@ function y_for_car = cel_dla_pojazdu(X)
         b = y1 - a1*x1;
     
         eq1 = -a1*x+y == b;
-        eq2 = 0.5*sin(x*pi*0.5) - y == 0;
+        %eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
+        eq2 = y == 0.2;
     
         solution = solve([eq1, eq2], [x, y]);
     end
@@ -35,6 +40,7 @@ function y_for_car = cel_dla_pojazdu(X)
 
     if ((solution.y-y0)/(solution.x-x0)) < tan(alpha)
         y_for_car = -y_for_car;
-    end    
+    end
+    to_send(1,1) = y_for_car;
 
 end
