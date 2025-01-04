@@ -18,8 +18,8 @@ function to_send = cel_dla_pojazdu(X)
     if alpha == 0
         
         eq1 = x == x1;
-        %eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
-        eq2 = y == 0.2;
+        eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
+        %eq2 = y == 0.1;
 
         solution = solve([eq1, eq2], [x, y]);
     else
@@ -28,8 +28,8 @@ function to_send = cel_dla_pojazdu(X)
         b = y1 - a1*x1;
     
         eq1 = -a1*x+y == b;
-        %eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
-        eq2 = y == 0.2;
+        eq2 = 0.5*sin(x*pi*0.5)^5 - y == 0;
+        %eq2 = y == 0.1;
     
         solution = solve([eq1, eq2], [x, y]);
     end

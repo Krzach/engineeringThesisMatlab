@@ -58,6 +58,8 @@ robot = differentialDriveKinematics("WheelRadius",0.02,"TrackWidth",0.18);
 
 errorHistory = zeros(T,1);
 
+u1=zeros(T,2);
+
 for k = 1:T
     % Define references (e.g., moving to a target location)
  
@@ -67,14 +69,19 @@ for k = 1:T
 
     errorHistory(k)=yPojazdu(1,1);
 
-    goal = [0 0.24, yPojazdu(1,1)];  % Target state
+    goal = [0.24, yPojazdu(1,1)];  % Target state
     
+    u = MPCfmincon([0;0;0],u0,goal,Ts);
+
     % Compute the optimal control action
-   [u, info] = nlmpcmove(nlobj, [0;0;0], u0, goal);
 
+    %u = MPCsl([0;0;0],u0,goal,Ts);
 
-   % u = MPCsl([0;0;0],u0,goal,Ts);
-    
+    %if k>1
+    %    u = MPCsl([0;0;0],u0,goal,Ts,xHistory(k,:)',xHistory(k-1,:)');
+    %else
+    %    u = MPCsl([0;0;0],u0,goal,Ts,[0;0;0],[0;0;0]);
+    %end
     % Apply the control input to the system
 
     %xHistory2(k+1,:) = model_zdyskretyzowany(xHistory2(k,:), Ts, u(1), u(2),0.02,0.18);
@@ -113,8 +120,8 @@ subplot(3,1,2); plot(xHistory(:,3)); title('Y position');
 subplot(3,1,3); plot(xHistory(:,1)); title('Orientation');
 
 syms x 
-%eq2 = 0.5*sin(x*pi*0.5)^5;
-eq2 = 0.2;
+eq2 = 0.5*sin(x*pi*0.5)^5;
+%eq2 = 0.2;
 
 figure
 plot(dxHistory(:,1), dxHistory(:,2))

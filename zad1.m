@@ -24,7 +24,7 @@
        for i=1:length(tspan)-1
             Y(i+1,:) = model_zdyskretyzowany(Y(i,:),0.01,40,30,0.05,0.2);
        end
-       legenda(k+1) = "Model dyskretny, t = "+string(0.1);
+       legenda(k+1) = "Model dyskretny, t = "+string(0.01);
    else 
       
      for i=1:length(tspan)*0.01/(0.05*(k-1))-1

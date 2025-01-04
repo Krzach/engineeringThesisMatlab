@@ -17,9 +17,9 @@ function nextU = MPCsl(X,prevU,goalY,T)
     C = [0 1 0;
        0 0 1];
     psi = [1 0;
-           0 20];
-    lambda = [0.0005 0;
-              0   0.0005];
+           0 50];
+    lambda = [0.0012 0;
+              0   0.0012];
 
     [A,B] = linearizeModel(X,prevU,T);
 
@@ -41,6 +41,8 @@ function nextU = MPCsl(X,prevU,goalY,T)
             V((i-1)*nx+1 : i*nx, :) = eye(nx,nx); 
         end
     end
+
+   % vk = vehicleModelDiscrete(X,prevU,T) - A*X - B*prevU;
 
     Mx = zeros(nx*N,nu*Nu);
 
@@ -96,14 +98,14 @@ function nextU = MPCsl(X,prevU,goalY,T)
     for i =1:N
         Ifalka((i-1)*ny+1 : i*ny, :) = eye(ny);
     end
-    
+%    ddx = XabsPrevK-XabsK;
     %zaniechuje błąd modelu
-%      vk = vehicleModelDiscrete(X,prevU,T) - A*X - B*prevU;
+%     vk = X - A*(X+ddx) - B*prevU;
 %  
-%      dk = C*vk;
+ %     dk = C*vk;
 % 
-%      y0 = Cfalka*(Afalka*X + V*(B*prevU+vk)) + Ifalka*dk;
-   y0 = Cfalka*(Afalka*X + V*(B*prevU));
+%     y0 = Cfalka*(Afalka*X + V*(B*prevU)) + Ifalka*dk;
+  y0 = Cfalka*(Afalka*X + V*(B*prevU)); %tutaj zmiana
 
     ysp = zeros(N*ny,1);
     for i =1:N
