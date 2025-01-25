@@ -1,6 +1,6 @@
 function nextU = MPCsl(X,prevU,goalY,T)
-    N = 10;
-    Nu = 3;
+    N = 8;
+    Nu = 2;
     nx = 3;
     nu = 2;
     ny = 2;
@@ -17,9 +17,9 @@ function nextU = MPCsl(X,prevU,goalY,T)
     C = [0 1 0;
        0 0 1];
     psi = [1 0;
-           0 50];
-    lambda = [0.0012 0;
-              0   0.0012];
+           0 23];
+    lambda = [0.0007 0;
+              0   0.0007];
 
     [A,B] = linearizeModel(X,prevU,T);
 
@@ -125,8 +125,8 @@ function nextU = MPCsl(X,prevU,goalY,T)
             J*N1];
            % -N1;
            % N1];
-    bqp = [-umin + [prevU;prevU;prevU];
-            umax - [prevU;prevU;prevU]];
+    bqp = [-umin + [prevU;prevU];
+            umax - [prevU;prevU]];
            % -dumin;
            % dumax];
 

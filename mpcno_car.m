@@ -7,9 +7,9 @@ function J = mpcno_car(deltau, prevU, X0, goal, T)
     nu = 2;
     ny = 2;
 
-   psi = [1; 50]; 
+   psi = [1; 20]; 
 
-   lambda = 0.0012;
+   lambda = 0.001;
 
     J = eye(nu*Nu);
     for i=1:Nu-1

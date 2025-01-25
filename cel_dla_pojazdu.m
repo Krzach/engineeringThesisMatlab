@@ -4,7 +4,7 @@ function to_send = cel_dla_pojazdu(X)
     x0=X(2);
     y0=X(3);
 
-    dx = 0.24/sqrt(1+tan(alpha)^2);
+    dx = 0.14/sqrt(1+tan(alpha)^2);
     dy = tan(alpha)*dx;
 
     x1 = x0+dx;
@@ -36,7 +36,7 @@ function to_send = cel_dla_pojazdu(X)
 
     c2 = (solution.x-x0)^2+(solution.y-y0)^2; 
 
-    y_for_car = double(sqrt(c2-0.24^2));
+    y_for_car = double(sqrt(c2-0.14^2));
 
     if ((solution.y-y0)/(solution.x-x0)) < tan(alpha)
         y_for_car = -y_for_car;

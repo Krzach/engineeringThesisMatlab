@@ -3,7 +3,7 @@ a = 0.1; % constant for angular velocity
 b = 0.5; % constant for linear velocity
 
 % Define prediction and control horizons
-PredictionHorizon = 15;
+PredictionHorizon = 10;
 ControlHorizon = 3;
 
 % Number of states, inputs, and outputs6
@@ -41,7 +41,7 @@ x0 = [pi/100; 0; 0];  % Initial state: [alpha, x, y]
 % Simulation horizon
 T = 500;  % Number of time steps
 
-time = 0:Ts:T;
+time = 0:Ts:T*Ts;
 
 % Preallocate
 xHistory = zeros(T, 3);
@@ -69,7 +69,7 @@ for k = 1:T
 
     errorHistory(k)=yPojazdu(1,1);
 
-    goal = [0.24, yPojazdu(1,1)];  % Target state
+    goal = [0.14, yPojazdu(1,1)];  % Target state
     
     u = MPCfmincon([0;0;0],u0,goal,Ts);
 
@@ -114,10 +114,12 @@ title("Sterowanie")
 legend("U1", "U2")
 
 % Plot results
-figure;
-subplot(3,1,1); plot(xHistory(:,2)); title('X position');
-subplot(3,1,2); plot(xHistory(:,3)); title('Y position');
-subplot(3,1,3); plot(xHistory(:,1)); title('Orientation');
+%figure;
+%subplot(3,1,1); plot(xHistory(:,2)); title('X position');
+%subplot(3,1,2); plot(xHistory(:,3)); title('Y position');
+%subplot(3,1,3); plot(xHistory(:,1)); title('Orientation');
+
+errorHistory = errorHistory.*100; 
 
 syms x 
 eq2 = 0.5*sin(x*pi*0.5)^5;
@@ -139,11 +141,15 @@ title("Pozycja na mapie")
  %end    
 
 
+
 figure
 plot(errorHistory)
 xlabel("t")
-ylabel("Error")
-title("wykryty błąd, E = " + string(sum(errorHistory.^2)))
+ylabel("Wychylenie")
+title("Wychylenie czujnika, Max E = "+num2str(max(abs(errorHistory)),'%.4f')  +", MSE = " + num2str(sum(errorHistory.^2)/length(errorHistory)))
 
+%MaxE = max(abs(errorHistory));
+%MSE = sum(errorHistory.^2)/length(errorHistory);
+%MAE = sum(abs(errorHistory))/length(errorHistory);
 
 

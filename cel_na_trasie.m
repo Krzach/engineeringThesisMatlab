@@ -4,7 +4,7 @@ function Y = cel_na_trasie(X)
     x0=X(2);
     y0=X(3);
 
-    dx = 0.24/sqrt(1+tan(alpha)^2);
+    dx = 0.14/sqrt(1+tan(alpha)^2);
     dy = tan(alpha)*dx;
 
     x1 = x0+dx;
